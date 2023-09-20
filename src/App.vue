@@ -1,20 +1,53 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+  export default {
+    data() {
+      return {
+        count: 0,
+
+        object: {
+          nested: { count: 0 },
+          array: ['foo', 'bar']
+        },
+
+        inputText: ''
+      }
+    },
+    methods: {
+      increment() {
+        this.count++;
+      },
+
+      decrement() {
+        this.count--;
+      },
+
+      modifyObect() {
+        this.object.nested.count++
+        this.object.array.push('bazz')
+      },
+
+      addData() {
+        this.object.array.push(this.inputText)
+      }
+
+    },
+  }
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div>
+    <h1>Hello World</h1>
+    <p><button @click="increment()">+</button>{{ count }}<button @click="decrement()">-</button></p>
+    <br>
+    <pre>
+      {{ object }}
+    </pre>
+    <button @click="modifyObect()">Modify Object</button>
+    <br>
+    <p>{{ inputText }}</p>
+    <input type="text" v-model="inputText">
+    <button @click="addData">Add Data</button>
+  </div>
 </template>
 
 <style scoped>
