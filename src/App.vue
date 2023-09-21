@@ -1,9 +1,11 @@
 <script>
+  import api from './api';
+
   export default {
     data() {
       return {
         count: 0,
-
+        users: [],
         object: {
           nested: { count: 0 },
           array: ['foo', 'bar']
@@ -28,8 +30,18 @@
 
       addData() {
         this.object.array.push(this.inputText)
+        this.inputText = ''
+      },
+
+      async fetchUsers() {
+         const response = await api.get('/users')
+          console.log(response)
       }
 
+    },
+
+    async mounted() {
+      await this.fetchUsers()
     },
   }
 </script>
