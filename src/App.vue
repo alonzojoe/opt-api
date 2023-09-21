@@ -35,7 +35,7 @@
 
       async fetchUsers() {
          const response = await api.get('/users')
-          console.log(response)
+         this.users = response.data
       }
 
     },
@@ -49,7 +49,7 @@
 <template>
   <div>
     <h1>Hello World</h1>
-    <p><button @click="increment()">+</button>{{ count }}<button @click="decrement()">-</button></p>
+    <!-- <p><button @click="increment()">+</button>{{ count }}<button @click="decrement()">-</button></p>
     <br>
     <pre>
       {{ object }}
@@ -59,6 +59,31 @@
     <p>{{ inputText }}</p>
     <input type="text" v-model="inputText">
     <button @click="addData">Add Data</button>
+    <pre>{{ users }}</pre> -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Company</th>
+          <th>Website</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(u, index) in users" :key="u.id">
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.name }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.phone }}</td>
+          <td>{{ u.company.name }}</td>
+          <td>{{ u.website }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
