@@ -1,7 +1,14 @@
 <script>
   import api from './api';
+  import json from './users.json'
+  import ProfileCard from './components/ProfileCard.vue';
+  import ProfileCardSkeleton from './components/ProfileCardSkeleton.vue';
 
   export default {
+    components: {
+      ProfileCard,
+      ProfileCardSkeleton
+    },
     data() {
       return {
         count: 0,
@@ -10,6 +17,7 @@
           nested: { count: 0 },
           array: ['foo', 'bar']
         },
+        jsonData: json,
 
         inputText: ''
       }
@@ -35,13 +43,18 @@
 
       async fetchUsers() {
          const response = await api.get('/users')
-         this.users = response.data
+         this.users = response.data.map((u) => {
+            return {
+              ...u,
+              username: `encrypted${u.username}`
+            }
+         })
       }
 
     },
 
     async mounted() {
-      await this.fetchUsers()
+      // await this.fetchUsers()
     },
   }
 </script>
@@ -49,6 +62,14 @@
 <template>
   <div>
     <h1>Hello World</h1>
+    <Suspense>
+      <template #default>
+        <profile-card />
+      </template>
+      <template #fallback>
+        <profile-card-skeleton />
+      </template>
+    </Suspense>
     <!-- <p><button @click="increment()">+</button>{{ count }}<button @click="decrement()">-</button></p>
     <br>
     <pre>
@@ -84,6 +105,9 @@
         </tr>
       </tbody>
     </table>
+    <pre>
+      {{ jsonData }}
+    </pre>
   </div>
 </template>
 
